@@ -1,0 +1,10 @@
+framework module SearsNetwork {
+  umbrella header "SearsNetwork.h"
+
+  export *
+  module * { export * }
+}
+
+module SearsNetwork.Swift {
+    header "SearsNetwork-Swift.h"
+}
