@@ -29,6 +29,8 @@ public protocol ResponseParserDelegate:class {
         }
         self.parserSelector = networkTask.parserSelector
         self.responseParserDelegate = mapperDelegate
+        
+        //Calling mapper delegate
         if let delegate = responseParserDelegate {
             delegate.performParsing(shReponse: self)
         }

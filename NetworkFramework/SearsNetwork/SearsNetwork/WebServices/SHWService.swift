@@ -15,8 +15,6 @@ class SHService:NSObject {
     
     var result: AnyObject? = nil
     
-    
-    
     func processDataTaskService(request:SHRequest,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (), completionHandler: @escaping ( _ status: Bool) -> ()) {
         
         guard let _ = request.url else {

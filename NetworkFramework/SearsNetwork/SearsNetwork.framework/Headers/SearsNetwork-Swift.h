@@ -129,6 +129,13 @@ SWIFT_CLASS("_TtC12SearsNetwork13SHNetworkTask")
 @end
 
 
+SWIFT_CLASS("_TtC12SearsNetwork15SHQueryComposer")
+@interface SHQueryComposer : NSObject
++ (NSString * _Nonnull)query:(NSDictionary<NSString *, id> * _Nonnull)parameters;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 SWIFT_CLASS("_TtC12SearsNetwork10SHResponse")
 @interface SHResponse : NSObject
 @property (nonatomic, copy) NSDictionary<NSString *, id> * _Nullable response;

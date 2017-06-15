@@ -34,18 +34,19 @@ import UIKit
         request?.inizializeRequest(url, httpBody: httpBody, parameterEncoding: parameterEncoding, httpMethod: httpMethod,requestID: requestID)
     }
     
-    
+    //MARK - Adding block operation reference - Batch request
     func addRequestReference(block:DispatchWorkItem,dispatchGroup:DispatchGroup) {
         dispatchWorkItem =  block
         self.dispatchGroup = dispatchGroup
     }
     
-    
+    //MARK - Adding sessinTask reference - Single request
     func addRequestReference(sessionTask:URLSessionTask) {
         self.sessionTask =  sessionTask
     }
     
     
+    //MARK - Cancel Service Request
     public func cancelRequest() {
         if let requestTask = sessionTask {
             requestTask.cancel()
@@ -58,6 +59,7 @@ import UIKit
     }
     
     
+     //MARK - Resume Service Request
     public func resumeRequest() {
         if let requestTask = sessionTask {
             requestTask.resume()

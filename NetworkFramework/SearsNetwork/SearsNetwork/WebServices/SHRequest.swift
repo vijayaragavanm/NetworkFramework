@@ -22,6 +22,10 @@ class SHRequest: NSObject {
     
     var url:URL? = nil
     
+    var httpMethod:Method = .GET
+    
+    var httpBody:Data? = nil
+    
     private var parameterEncoding: ParameterEncoding = .json {
         didSet {
             
@@ -39,14 +43,10 @@ class SHRequest: NSObject {
         }
     }
     
-    var httpMethod:Method = .GET
-    
     public var requestID:Int = 0
     
-    var httpBody:Data? = nil
-    
     public var headerValues:[String:String]? = nil
-
+    
     func inizializeRequest(_ url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding,httpMethod:Method,requestID:Int = 0){
         self.url = url
         self.parameterEncoding = parameterEncoding
@@ -59,12 +59,14 @@ class SHRequest: NSObject {
         }
     }
     
+    
+    //MARK - Encode parameters
     func encodedParameters(_ parameters: Any) -> Data? {
         var data: Data? = nil
         
         switch parameterEncoding {
         case .url, .urlEncodedInURL:
-            let encodedParameters = query(parameters as! [String : Any])
+            let encodedParameters = SHQueryComposer.query(parameters as! [String : Any])
             data = encodedParameters.data(using: String.Encoding.utf8)
             
         case .json:
@@ -81,7 +83,12 @@ class SHRequest: NSObject {
         return data
     }
     
-    func query(_ parameters: [String: Any]) -> String {
+}
+
+//MARK - Compose query parameters
+@objc public class SHQueryComposer:NSObject {
+    
+   public class func query(_ parameters: [String: Any]) -> String {
         var components: [(String, String)] = []
         
         for key in parameters.keys.sorted(by: <) {
@@ -92,7 +99,7 @@ class SHRequest: NSObject {
         return (components.map { "\($0)=\($1)" } as [String]).joined(separator: "&")
     }
     
-    func queryComponents(_ key: String, _ value: Any) -> [(String, String)] {
+    private class func queryComponents(_ key: String, _ value: Any) -> [(String, String)] {
         var components: [(String, String)] = []
         
         if let dictionary = value as? [String: Any] {
@@ -111,7 +118,7 @@ class SHRequest: NSObject {
     }
     
     
-    func escape(_ string: String) -> String {
+    private class func escape(_ string: String) -> String {
         let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
         let subDelimitersToEncode = "!$&'()*+,;="
         
@@ -123,5 +130,5 @@ class SHRequest: NSObject {
         escaped = string.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet) ?? string
         return escaped
     }
-
+    
 }
