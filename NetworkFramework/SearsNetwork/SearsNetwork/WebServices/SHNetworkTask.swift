@@ -27,7 +27,7 @@ import UIKit
     
     private weak var dispatchWorkItem:DispatchWorkItem? = nil
     
-    public init(withUrl url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding = .json,httpMethod:Method,parserSelector:Selector?,requestID:Int = 0,parserClass:Any? = nil) {
+    public init(withUrl url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding = .json,httpMethod:Method,parserSelector:Selector? = nil,requestID:Int = 0,parserClass:Any? = nil) {
         super.init()
         self.parserSelector = parserSelector
         self.parserClass = parserClass
