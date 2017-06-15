@@ -16,18 +16,18 @@ public protocol ResponseParserDelegate:class {
     weak var responseParserDelegate: ResponseParserDelegate? = nil
     
     public var response: [String: Any]? = nil
-    private var request:SHRequest? = nil
     public var responseModel:Any? = nil
     public var requestID:Int = 0
     public var parserSelector:Selector? = nil
     
-    init(_ response: [String: Any],request:SHRequest,mapperDelegate:ResponseParserDelegate) {
+    init(_ response: [String: Any],networkTask:SHNetworkTask,mapperDelegate:ResponseParserDelegate?) {
         super.init()
         
         self.response = response
-        self.requestID = request.requestID
-        self.request = request
-        self.parserSelector = request.parserSelector
+        if let requestID = networkTask.request?.requestID {
+            self.requestID = requestID
+        }
+        self.parserSelector = networkTask.parserSelector
         self.responseParserDelegate = mapperDelegate
         if let delegate = responseParserDelegate {
             delegate.performParsing(shReponse: self)
@@ -35,3 +35,4 @@ public protocol ResponseParserDelegate:class {
     }
     
 }
+   

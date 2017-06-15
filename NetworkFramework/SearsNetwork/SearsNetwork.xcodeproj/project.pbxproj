@@ -10,13 +10,14 @@
 		50342A431EF0033B00B3F36E /* SearsNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50342A391EF0033A00B3F36E /* SearsNetwork.framework */; };
 		50342A481EF0033B00B3F36E /* SearsNetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50342A471EF0033B00B3F36E /* SearsNetworkTests.swift */; };
 		50342A4A1EF0033B00B3F36E /* SearsNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 50342A3C1EF0033A00B3F36E /* SearsNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		50342A5B1EF0040900B3F36E /* SHRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50342A541EF0040900B3F36E /* SHRequest.swift */; };
+		50342A5B1EF0040900B3F36E /* SHNetworkTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50342A541EF0040900B3F36E /* SHNetworkTask.swift */; };
 		50342A5D1EF0040900B3F36E /* SHResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50342A561EF0040900B3F36E /* SHResponse.swift */; };
 		50342A5E1EF0040900B3F36E /* SHWService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50342A571EF0040900B3F36E /* SHWService.swift */; };
 		50342A601EF0040900B3F36E /* SHWebServiceCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50342A591EF0040900B3F36E /* SHWebServiceCalls.swift */; };
 		50342A611EF0040900B3F36E /* SHWebServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50342A5A1EF0040900B3F36E /* SHWebServiceManager.swift */; };
-		50342A641EF0074700B3F36E /* SHRequest.swift in Headers */ = {isa = PBXBuildFile; fileRef = 50342A541EF0040900B3F36E /* SHRequest.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		50342A641EF0074700B3F36E /* SHNetworkTask.swift in Headers */ = {isa = PBXBuildFile; fileRef = 50342A541EF0040900B3F36E /* SHNetworkTask.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		50342A661EF007E500B3F36E /* SHWebServiceManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = 50342A5A1EF0040900B3F36E /* SHWebServiceManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		50B6F6431EF2761B0047A72C /* SHRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6F6421EF2761B0047A72C /* SHRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,11 +37,12 @@
 		50342A421EF0033B00B3F36E /* SearsNetworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SearsNetworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50342A471EF0033B00B3F36E /* SearsNetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearsNetworkTests.swift; sourceTree = "<group>"; };
 		50342A491EF0033B00B3F36E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		50342A541EF0040900B3F36E /* SHRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHRequest.swift; sourceTree = "<group>"; };
+		50342A541EF0040900B3F36E /* SHNetworkTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHNetworkTask.swift; sourceTree = "<group>"; };
 		50342A561EF0040900B3F36E /* SHResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHResponse.swift; sourceTree = "<group>"; };
 		50342A571EF0040900B3F36E /* SHWService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHWService.swift; sourceTree = "<group>"; };
 		50342A591EF0040900B3F36E /* SHWebServiceCalls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHWebServiceCalls.swift; sourceTree = "<group>"; };
 		50342A5A1EF0040900B3F36E /* SHWebServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHWebServiceManager.swift; sourceTree = "<group>"; };
+		50B6F6421EF2761B0047A72C /* SHRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,11 +104,12 @@
 		50342A531EF0040900B3F36E /* WebServices */ = {
 			isa = PBXGroup;
 			children = (
-				50342A541EF0040900B3F36E /* SHRequest.swift */,
+				50342A541EF0040900B3F36E /* SHNetworkTask.swift */,
 				50342A561EF0040900B3F36E /* SHResponse.swift */,
 				50342A571EF0040900B3F36E /* SHWService.swift */,
 				50342A591EF0040900B3F36E /* SHWebServiceCalls.swift */,
 				50342A5A1EF0040900B3F36E /* SHWebServiceManager.swift */,
+				50B6F6421EF2761B0047A72C /* SHRequest.swift */,
 			);
 			path = WebServices;
 			sourceTree = "<group>";
@@ -119,7 +122,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50342A4A1EF0033B00B3F36E /* SearsNetwork.h in Headers */,
-				50342A641EF0074700B3F36E /* SHRequest.swift in Headers */,
+				50342A641EF0074700B3F36E /* SHNetworkTask.swift in Headers */,
 				50342A661EF007E500B3F36E /* SHWebServiceManager.swift in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -225,7 +228,8 @@
 			files = (
 				50342A601EF0040900B3F36E /* SHWebServiceCalls.swift in Sources */,
 				50342A5D1EF0040900B3F36E /* SHResponse.swift in Sources */,
-				50342A5B1EF0040900B3F36E /* SHRequest.swift in Sources */,
+				50B6F6431EF2761B0047A72C /* SHRequest.swift in Sources */,
+				50342A5B1EF0040900B3F36E /* SHNetworkTask.swift in Sources */,
 				50342A5E1EF0040900B3F36E /* SHWService.swift in Sources */,
 				50342A611EF0040900B3F36E /* SHWebServiceManager.swift in Sources */,
 			);

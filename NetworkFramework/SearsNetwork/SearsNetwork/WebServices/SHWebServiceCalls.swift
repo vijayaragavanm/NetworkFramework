@@ -14,15 +14,14 @@ private struct Constants {
 class SHWebServiceCalls {
     
     // MARK: - Service Call
-    @discardableResult func dataTaskServiceRequest(_ request:SHRequest,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (), completionHandler:@escaping (_ error: NSError?, _ responseObject: [String: Any]?) -> ()) {
+    @discardableResult func dataTaskServiceRequest(_ request:SHRequest?,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (), completionHandler:@escaping (_ error: NSError?, _ responseObject: [String: Any]?) -> ()) {
         
-        
-        guard let _ = request.url else {
+        guard let requestObj = request,let _ = requestObj.url else {
             return
         }
         
         let service = SHService()
-        service.processDataTaskService(request:request, referenceHandler: { (serviceTask) in
+        service.processDataTaskService(request:request!, referenceHandler: { (serviceTask) in
             referenceHandler(serviceTask )
         }) { (status) in
             if status {
@@ -73,7 +72,9 @@ extension SHWebServiceCalls {
         var message = "Unknown error occured"
         var error = getError(message, withErrorCode: operation.httpCode)
         
-        if operation.error == nil {
+        if let serviceError = operation.error {
+            error = serviceError
+        }else {
             if let response = operation.result as? [String: Any] {
                 if let msg = response["message"] as? String {
                     message = msg
@@ -87,8 +88,7 @@ extension SHWebServiceCalls {
             } else {
                 error = self.getError(nil, withErrorCode: operation.httpCode)
             }
-        } else {
-            error = operation.error!
+
         }
         
         return error

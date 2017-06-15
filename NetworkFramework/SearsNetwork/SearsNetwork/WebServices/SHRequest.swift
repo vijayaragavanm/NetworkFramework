@@ -1,8 +1,9 @@
 //
 //  SHRequest.swift
+//  SearsNetwork
 //
-//  Created by M, Vijayaragavan (Contractor) on 6/6/17.
-//  Copyright © 2017 Furqan Kamani. All rights reserved.
+//  Created by M, Vijayaragavan (Contractor) on 6/15/17.
+//  Copyright © 2017 M, Vijayaragavan (Contractor). All rights reserved.
 //
 
 import UIKit
@@ -17,7 +18,7 @@ public enum ParameterEncoding {
     case json
 }
 
-@objc public class SHRequest: NSObject {
+class SHRequest: NSObject {
     
     var url:URL? = nil
     
@@ -34,45 +35,22 @@ public enum ParameterEncoding {
                 headerFields["Content-Type"] = "application/json"
             }
             
-//            if let sessionKey = KeychainWrapper.stringForKey(keyName: kSHSessionKey) {
-//                headerFields["sessionKey"] = sessionKey
-//            }
-//            
             headerValues = headerFields
         }
     }
     
     var httpMethod:Method = .GET
     
-    var parserSelector:Selector? = nil
-    
     public var requestID:Int = 0
     
     var httpBody:Data? = nil
     
     public var headerValues:[String:String]? = nil
-    
-    var isCancelled:Bool = false
-    
-    private weak var sessionTask:URLSessionTask? = nil
-    
-    private weak var dispatchGroup:DispatchGroup? = nil
-    
-    private weak var dispatchWorkItem:DispatchWorkItem? = nil
-    
-    
-    public init(_ url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding = .json,httpMethod:Method,parserSelector:Selector?,requestID:Int = 0) {
-        super.init()
-        self.inizialize(url, httpBody: httpBody, parameterEncoding: parameterEncoding, httpMethod: httpMethod, parserSelector: parserSelector,requestID: requestID)
-        
-        
-    }
-    
-    func inizialize(_ url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding,httpMethod:Method,parserSelector:Selector?,requestID:Int = 0){
+
+    func inizializeRequest(_ url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding,httpMethod:Method,requestID:Int = 0){
         self.url = url
         self.parameterEncoding = parameterEncoding
         self.httpMethod = httpMethod
-        self.parserSelector = parserSelector
         self.requestID = requestID
         if let httpBodyParams = httpBody {
             if let parametersData = encodedParameters(httpBodyParams) {
@@ -145,38 +123,5 @@ public enum ParameterEncoding {
         escaped = string.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet) ?? string
         return escaped
     }
-    
-    
-    func addRequestReference(block:DispatchWorkItem,dispatchGroup:DispatchGroup) {
-        dispatchWorkItem =  block
-        self.dispatchGroup = dispatchGroup
-    }
-    
-    
-    func addRequestReference(sessionTask:URLSessionTask) {
-        self.sessionTask =  sessionTask
-    }
-    
-    
-   public func cancelRequest() {
-        if let requestTask = sessionTask {
-            requestTask.cancel()
-            isCancelled = true
-        }else if let dispatchBlock = dispatchWorkItem,let dispatchGroup = dispatchGroup {
-            dispatchBlock.cancel()
-            dispatchGroup.leave()
-            isCancelled = true
-        }
-      
-        
-    }
-    
-    
-   public func resumeRequest() {
-        if let requestTask = sessionTask {
-            requestTask.resume()
-            isCancelled = false
-        }
-    }
-    
+
 }

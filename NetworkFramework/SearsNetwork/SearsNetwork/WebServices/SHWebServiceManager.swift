@@ -21,13 +21,13 @@ import UIKit
         return instance
     }()
     
-    public var mapper:Any? = nil
+    public var defaltMapper:Any? = nil
     
     //service call for single request
-    public func dataTaskRequest(request:SHRequest, completionHandler:@escaping (_ error: NSError?, _ responseObject: Any?) -> () ){
+    public func dataTaskRequest(networkTask:SHNetworkTask, completionHandler:@escaping (_ error: NSError?, _ responseObject: Any?) -> () ){
         
-        serviceCaller.dataTaskServiceRequest(request, referenceHandler: { (serviceTask) in
-            request.addRequestReference(sessionTask: serviceTask)
+        serviceCaller.dataTaskServiceRequest(networkTask.request, referenceHandler: { (serviceTask) in
+            networkTask.addRequestReference(sessionTask: serviceTask)
         }) { (error, response) in
             if error == nil {
                 if let response = response {
@@ -35,8 +35,11 @@ import UIKit
                         
                         var result:Any? = nil
                         
-                        if let _ = request.parserSelector {
-                            let response = SHResponse(response,request:request,mapperDelegate:self.mapper as! ResponseParserDelegate)
+                        if let parserClass = networkTask.parserClass {
+                            let response = SHResponse(response,networkTask:networkTask,mapperDelegate:parserClass as? ResponseParserDelegate)
+                            result = response
+                        }else if let _ = networkTask.parserSelector,let defaultMapper = self.defaltMapper {
+                            let response = SHResponse(response,networkTask:networkTask,mapperDelegate:defaultMapper as? ResponseParserDelegate)
                             result = response
                         }else {
                             result = response
@@ -56,19 +59,19 @@ import UIKit
     
     
     //service call batch request
-    public func batchDataTaskRequest(requestArray:[SHRequest], completionHandler:@escaping (_ error: NSError?, _ responseObject: Any?) -> (),_ groupCompletionHandler:@escaping () -> () ){
+    public func batchDataTaskRequest(networkTasks:[SHNetworkTask], completionHandler:@escaping (_ error: NSError?, _ responseObject: Any?) -> (),_ groupCompletionHandler:@escaping () -> () ){
         
         var leaveGroupCount:Int = 0
         let taskGroup = DispatchGroup()
         
         var blocks: [DispatchWorkItem] = []
         
-        for request in requestArray {
+        for networkTask in networkTasks {
             
             taskGroup.enter()
             let block = DispatchWorkItem(flags: .inheritQoS) {
                 
-                self.serviceCaller.dataTaskServiceRequest(request, referenceHandler: { (serviceTask) in
+                self.serviceCaller.dataTaskServiceRequest(networkTask.request, referenceHandler: { (serviceTask) in
                     
                     
                 }) { (error, response) in
@@ -78,12 +81,16 @@ import UIKit
                                 
                                 var result:Any? = nil
                                 
-                                if let _ = request.parserSelector {
-                                    let response = SHResponse(response,request:request,mapperDelegate:self.mapper as! ResponseParserDelegate)
+                                if let parserClass = networkTask.parserClass {
+                                    let response = SHResponse(response,networkTask:networkTask,mapperDelegate:parserClass as? ResponseParserDelegate)
                                     result = response
-                                }else {
+                                }else if let _ = networkTask.parserSelector,let defaultMapper = self.defaltMapper {
+                                    let response = SHResponse(response,networkTask:networkTask,mapperDelegate:defaultMapper as? ResponseParserDelegate)
+                                    result = response
+                                } else {
                                     result = response
                                 }
+                                
                                 DispatchQueue.main.async {
                                     completionHandler(nil,result)
                                     
@@ -114,7 +121,7 @@ import UIKit
                 }
             }
             
-            request.addRequestReference(block: block, dispatchGroup: taskGroup)
+            networkTask.addRequestReference(block: block, dispatchGroup: taskGroup)
             blocks.append(block)
             
             DispatchQueue.global(qos: .background).async(execute:block)

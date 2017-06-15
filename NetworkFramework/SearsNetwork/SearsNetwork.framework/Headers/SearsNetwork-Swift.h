@@ -121,10 +121,8 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
 
-SWIFT_CLASS("_TtC12SearsNetwork9SHRequest")
-@interface SHRequest : NSObject
-@property (nonatomic) NSInteger requestID;
-@property (nonatomic, copy) NSDictionary<NSString *, NSString *> * _Nullable headerValues;
+SWIFT_CLASS("_TtC12SearsNetwork13SHNetworkTask")
+@interface SHNetworkTask : NSObject
 - (void)cancelRequest;
 - (void)resumeRequest;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -146,9 +144,9 @@ SWIFT_CLASS("_TtC12SearsNetwork19SHWebServiceManager")
 @interface SHWebServiceManager : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SHWebServiceManager * _Nonnull shared;)
 + (SHWebServiceManager * _Nonnull)shared;
-@property (nonatomic) id _Nullable mapper;
-- (void)dataTaskRequestWithRequest:(SHRequest * _Nonnull)request completionHandler:(void (^ _Nonnull)(NSError * _Nullable, id _Nullable))completionHandler;
-- (void)batchDataTaskRequestWithRequestArray:(NSArray<SHRequest *> * _Nonnull)requestArray completionHandler:(void (^ _Nonnull)(NSError * _Nullable, id _Nullable))completionHandler :(void (^ _Nonnull)(void))groupCompletionHandler;
+@property (nonatomic) id _Nullable defaltMapper;
+- (void)dataTaskRequestWithNetworkTask:(SHNetworkTask * _Nonnull)networkTask completionHandler:(void (^ _Nonnull)(NSError * _Nullable, id _Nullable))completionHandler;
+- (void)batchDataTaskRequestWithNetworkTasks:(NSArray<SHNetworkTask *> * _Nonnull)networkTasks completionHandler:(void (^ _Nonnull)(NSError * _Nullable, id _Nullable))completionHandler :(void (^ _Nonnull)(void))groupCompletionHandler;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 

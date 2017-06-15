@@ -19,6 +19,10 @@ class SHService:NSObject {
     
     func processDataTaskService(request:SHRequest,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (), completionHandler: @escaping ( _ status: Bool) -> ()) {
         
+        guard let _ = request.url else {
+            return
+        }
+        
         var urlRequest = URLRequest(url: request.url!)
         urlRequest.httpMethod = request.httpMethod.rawValue
         urlRequest.httpBody =  request.httpBody
