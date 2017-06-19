@@ -23,7 +23,7 @@ import UIKit
     
     public var defaltMapper:Any? = nil
     
-    //service call for single request
+    //service call for single data task request
     public func dataTaskRequest(networkTask:SHNetworkTask, completionHandler:@escaping (_ error: NSError?, _ responseObject: Any?) -> () ){
         
         serviceCaller.dataTaskServiceRequest(networkTask.request, referenceHandler: { (serviceTask) in
@@ -58,7 +58,7 @@ import UIKit
     }
     
     
-    //service call batch request
+    //service call batch data task request
     public func batchDataTaskRequest(networkTasks:[SHNetworkTask], completionHandler:@escaping (_ error: NSError?, _ responseObject: Any?) -> (),_ groupCompletionHandler:@escaping () -> () ){
         
         var leaveGroupCount:Int = 0

@@ -19,7 +19,42 @@ import UIKit
     
     var parserSelector:Selector? = nil
     
-    var isCancelled:Bool = false
+    public var isCancelled:Bool {
+        get {
+            if let sessionTask = sessionTask,sessionTask.state == .canceling {
+                return true
+            }
+            return false
+        }
+    }
+    
+    public var isPaused:Bool {
+        get {
+            if let sessionTask = sessionTask,sessionTask.state == .suspended {
+                return true
+            }
+            return false
+        }
+    }
+    
+    public var isCompleted:Bool {
+        get {
+            if let sessionTask = sessionTask,sessionTask.state == .completed {
+                return true
+            }
+            return false
+        }
+    }
+    
+    public var isInprogress:Bool {
+        get {
+            if let sessionTask = sessionTask,sessionTask.state == .running {
+                return true
+            }
+            return false
+        }
+    }
+    
     
     private weak var sessionTask:URLSessionTask? = nil
     
@@ -27,11 +62,11 @@ import UIKit
     
     private weak var dispatchWorkItem:DispatchWorkItem? = nil
     
-    public init(withUrl url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding = .json,httpMethod:Method,parserSelector:Selector? = nil,requestID:Int = 0,parserClass:Any? = nil) {
+    public init(withUrl url:URL,httpBody: [String: Any]? = nil,parameterEncoding:ParameterEncoding = .json,httpMethod:Method = .GET,parserSelector:Selector? = nil,requestID:Int = 0,parserClass:Any? = nil,filePath:URL? = nil) {
         super.init()
         self.parserSelector = parserSelector
         self.parserClass = parserClass
-        request?.inizializeRequest(url, httpBody: httpBody, parameterEncoding: parameterEncoding, httpMethod: httpMethod,requestID: requestID)
+        request?.inizializeRequest(url, httpBody: httpBody, parameterEncoding: parameterEncoding, httpMethod: httpMethod,requestID: requestID,filePath: filePath)
     }
     
     //MARK - Adding block operation reference - Batch request
@@ -48,23 +83,39 @@ import UIKit
     
     //MARK - Cancel Service Request
     public func cancelRequest() {
+    
         if let requestTask = sessionTask {
+            
+            guard isCompleted == false else {
+                return
+            }
+            
             requestTask.cancel()
-            isCancelled = true
+    
         }else if let dispatchBlock = dispatchWorkItem,let dispatchGroup = dispatchGroup {
             dispatchBlock.cancel()
             dispatchGroup.leave()
-            isCancelled = true
+
         }
     }
     
     
-     //MARK - Resume Service Request
+    //MARK - Resume Service Request
     public func resumeRequest() {
-        if let requestTask = sessionTask {
+        if let requestTask = sessionTask as? URLSessionDownloadTask,isPaused == true {
             requestTask.resume()
-            isCancelled = false
+    
         }
     }
+    
+    //MARK - Pause Service Request
+    public func pauseRequest() {
+        
+        if let requestTask = sessionTask as? URLSessionDownloadTask,isInprogress == true {
+            requestTask.suspend()
+
+        }
+    }
+    
     
 }

@@ -43,20 +43,26 @@ class SHRequest: NSObject {
         }
     }
     
+    public var filePath:URL? = nil
+    
     public var requestID:Int = 0
     
     public var headerValues:[String:String]? = nil
     
-    func inizializeRequest(_ url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding,httpMethod:Method,requestID:Int = 0){
+    func inizializeRequest(_ url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding,httpMethod:Method,requestID:Int = 0,filePath:URL?){
         self.url = url
         self.parameterEncoding = parameterEncoding
         self.httpMethod = httpMethod
         self.requestID = requestID
+        
         if let httpBodyParams = httpBody {
             if let parametersData = encodedParameters(httpBodyParams) {
                 self.httpBody = parametersData
             }
         }
+        
+        self.filePath = filePath
+        
     }
     
     
@@ -88,7 +94,7 @@ class SHRequest: NSObject {
 //MARK - Compose query parameters
 @objc public class SHQueryComposer:NSObject {
     
-   public class func query(_ parameters: [String: Any]) -> String {
+    public class func query(_ parameters: [String: Any]) -> String {
         var components: [(String, String)] = []
         
         for key in parameters.keys.sorted(by: <) {

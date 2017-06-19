@@ -37,4 +37,4 @@ public protocol ResponseParserDelegate:class {
     }
     
 }
-   
+

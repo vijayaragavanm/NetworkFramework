@@ -15,6 +15,18 @@ class SHService:NSObject {
     
     var result: AnyObject? = nil
     
+    var downloadTask: URLSessionDownloadTask!
+    
+    var filePath:URL? = nil
+    
+    
+    typealias CompletionHandler = ( _ status: Bool) -> ()
+    typealias DataProgressHandler = (_ downloadTask: URLSessionDownloadTask, _ bytesWritten: Int64,_ totalBytesWritten: Int64,_ totalBytesExpectedToWrite: Int64) -> ()
+    
+    var completionHandler:CompletionHandler? = nil
+    var dataProgressHandler:DataProgressHandler? = nil
+    
+    
     func processDataTaskService(request:SHRequest,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (), completionHandler: @escaping ( _ status: Bool) -> ()) {
         
         guard let _ = request.url else {

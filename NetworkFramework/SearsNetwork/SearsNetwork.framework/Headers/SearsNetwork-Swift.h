@@ -123,8 +123,13 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 SWIFT_CLASS("_TtC12SearsNetwork13SHNetworkTask")
 @interface SHNetworkTask : NSObject
+@property (nonatomic, readonly) BOOL isCancelled;
+@property (nonatomic, readonly) BOOL isPaused;
+@property (nonatomic, readonly) BOOL isCompleted;
+@property (nonatomic, readonly) BOOL isInprogress;
 - (void)cancelRequest;
 - (void)resumeRequest;
+- (void)pauseRequest;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 @end
 
@@ -155,6 +160,12 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SHWebService
 - (void)dataTaskRequestWithNetworkTask:(SHNetworkTask * _Nonnull)networkTask completionHandler:(void (^ _Nonnull)(NSError * _Nullable, id _Nullable))completionHandler;
 - (void)batchDataTaskRequestWithNetworkTasks:(NSArray<SHNetworkTask *> * _Nonnull)networkTasks completionHandler:(void (^ _Nonnull)(NSError * _Nullable, id _Nullable))completionHandler :(void (^ _Nonnull)(void))groupCompletionHandler;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSURLSessionDownloadTask;
+
+@interface SHWebServiceManager (SWIFT_EXTENSION(SearsNetwork))
+- (void)downloadTaskRequestWithNetworkTask:(SHNetworkTask * _Nonnull)networkTask dataProgressHandler:(void (^ _Nonnull)(NSURLSessionDownloadTask * _Nonnull, int64_t, int64_t, int64_t))dataProgressHandler completionHandler:(void (^ _Nonnull)(NSError * _Nullable, id _Nullable))completionHandler;
 @end
 
 #pragma clang diagnostic pop

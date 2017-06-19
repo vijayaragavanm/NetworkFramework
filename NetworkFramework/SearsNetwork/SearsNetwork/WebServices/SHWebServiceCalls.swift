@@ -13,7 +13,7 @@ private struct Constants {
 
 class SHWebServiceCalls {
     
-    // MARK: - Data Task Service Call - 
+    // MARK: - Data Task Service Call
     @discardableResult func dataTaskServiceRequest(_ request:SHRequest?,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (), completionHandler:@escaping (_ error: NSError?, _ responseObject: [String: Any]?) -> ()) {
         
         guard let requestObj = request,let _ = requestObj.url else {
@@ -21,52 +21,64 @@ class SHWebServiceCalls {
         }
         
         let service = SHService()
-        service.processDataTaskService(request:request!, referenceHandler: { (serviceTask) in
-            referenceHandler(serviceTask )
-        }) { (status) in
-            if status {
-                if var response = service.result as? [String: Any] {
-                    DispatchQueue.main.async {
-                        response["httpStatusCode"] = String(service.httpCode) as AnyObject?
-                        completionHandler(nil, response)
-                    }
-                    
-                } else if service.httpCode == 204 || service.httpCode == 200 {
-                    DispatchQueue.main.async {
-                        let responseDic = ["httpStatusCode": String(service.httpCode)]
-                        completionHandler(nil, responseDic as [String: Any]?)
-                    }
-                }
-            } else {
-                
-                let serError: NSError? = self.parseOperationError(service)
-                
-                if let errorCode = serError?.code,errorCode != Constants.NSURLErrorCancelled {
-                    completionHandler(serError, nil)
-                }
-                
-            }
-        }
         
+        service.processDataTaskService(request:request!, referenceHandler: { (dataTask) in
+            referenceHandler(dataTask )
+        }) { (status) in
+            self.parseResponse(service: service, status: status,completionHandler: completionHandler)
+        }
     }
     
+    
+    // MARK: - Download Task Service Call
+    @discardableResult func downloadTaskServiceRequest(_ request:SHRequest?,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (),dataProgressHandler:@escaping (_ downloadTask: URLSessionDownloadTask, _ bytesWritten: Int64,_ totalBytesWritten: Int64,_ totalBytesExpectedToWrite: Int64) -> (), completionHandler:@escaping (_ error: NSError?, _ responseObject: [String: Any]?) -> ()) {
+        
+        guard let requestObj = request,let _ = requestObj.url else {
+            return
+        }
+        
+        let service = SHService()
+        
+        service.processDownloadTaskService(request: request!, referenceHandler: { (downloadTask) in
+            referenceHandler(downloadTask)
+        }, dataProgressHandler: { (downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
+            dataProgressHandler(downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
+        }) { (status) in
+            self.parseResponse(service: service, status: status,completionHandler: completionHandler)
+        }
+    }
+    
+    
+    // MARK: - Handle Response,Error and Parse
+    func parseResponse(service:SHService,status:Bool,completionHandler:@escaping (_ error: NSError?, _ responseObject: [String: Any]?) -> ()) {
+        if status {
+            if var response = service.result as? [String: Any] {
+                DispatchQueue.main.async {
+                    response["httpStatusCode"] = String(service.httpCode) as AnyObject?
+                    completionHandler(nil, response)
+                }
+                
+            } else if service.httpCode == 204 || service.httpCode == 200 {
+                DispatchQueue.main.async {
+                    let responseDic = ["httpStatusCode": String(service.httpCode)]
+                    completionHandler(nil, responseDic as [String: Any]?)
+                }
+            }
+        } else {
+            
+            let serError: NSError? = self.parseOperationError(service)
+            
+            if let errorCode = serError?.code,errorCode != Constants.NSURLErrorCancelled {
+                completionHandler(serError, nil)
+            }
+            
+        }
+    }
 }
 
 
-// MARK: - Handle Response,Error and Parse
+// MARK: - Handle Error and Parse
 extension SHWebServiceCalls {
-    
-    func getError(_ message: String?, withErrorCode errorCode: Int) -> NSError {
-        var errorMessage = "Unknown error occured"
-        if let msg = message {
-            errorMessage = msg
-        }
-        
-        let userInfo = [NSLocalizedDescriptionKey: errorMessage]
-        let serverError = NSError(domain: "SLError", code: errorCode, userInfo: userInfo)
-        
-        return serverError
-    }
     
     func parseOperationError(_ operation: SHService) -> NSError {
         var message = "Unknown error occured"
@@ -88,10 +100,22 @@ extension SHWebServiceCalls {
             } else {
                 error = self.getError(nil, withErrorCode: operation.httpCode)
             }
-
         }
         
         return error
+    }
+    
+    
+    func getError(_ message: String?, withErrorCode errorCode: Int) -> NSError {
+        var errorMessage = "Unknown error occured"
+        if let msg = message {
+            errorMessage = msg
+        }
+        
+        let userInfo = [NSLocalizedDescriptionKey: errorMessage]
+        let serverError = NSError(domain: "SLError", code: errorCode, userInfo: userInfo)
+        
+        return serverError
     }
     
     
