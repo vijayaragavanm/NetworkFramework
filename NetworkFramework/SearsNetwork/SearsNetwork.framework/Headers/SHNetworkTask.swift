@@ -55,7 +55,6 @@ import UIKit
         }
     }
     
-    
     private weak var sessionTask:URLSessionTask? = nil
     
     private weak var dispatchGroup:DispatchGroup? = nil

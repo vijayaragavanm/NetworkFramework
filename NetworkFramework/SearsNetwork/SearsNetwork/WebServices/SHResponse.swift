@@ -20,7 +20,7 @@ public protocol ResponseParserDelegate:class {
     public var requestID:Int = 0
     public var parserSelector:Selector? = nil
     
-    init(_ response: [String: Any],networkTask:SHNetworkTask,mapperDelegate:ResponseParserDelegate?) {
+    init(_ response: [String: Any],networkTask:SHNetworkTask,mapperDelegate:ResponseParserDelegate? = nil) {
         super.init()
         
         self.response = response
