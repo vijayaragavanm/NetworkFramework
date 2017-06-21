@@ -17,14 +17,19 @@ class SHService:NSObject {
     
     var downloadTask: URLSessionDownloadTask!
     
+    var uploadTask: URLSessionUploadTask!
+    
     var filePath:URL? = nil
     
     
     typealias CompletionHandler = ( _ status: Bool) -> ()
     typealias DataProgressHandler = (_ downloadTask: URLSessionDownloadTask, _ bytesWritten: Int64,_ totalBytesWritten: Int64,_ totalBytesExpectedToWrite: Int64) -> ()
     
+    typealias UploadDataProgressHandler = (_ uploadTask: URLSessionTask, _ didSendBodyData: Int64,_ totalBytesSent: Int64,_ totalBytesExpectedToSend: Int64) -> ()
+    
     var completionHandler:CompletionHandler? = nil
     var dataProgressHandler:DataProgressHandler? = nil
+    var uploadDataProgressHandler:UploadDataProgressHandler? = nil
     
     
     func processDataTaskService(request:SHRequest,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (), completionHandler: @escaping ( _ status: Bool) -> ()) {
@@ -37,12 +42,7 @@ class SHService:NSObject {
         urlRequest.httpMethod = request.httpMethod.rawValue
         urlRequest.httpBody =  request.httpBody
         
-        if let headerFields = request.headerValues {
-            
-            for (key,value) in headerFields {
-                urlRequest.setValue(value, forHTTPHeaderField: key)
-            }
-        }
+        request.headerValues.forEach { (k,v) in urlRequest.setValue(v, forHTTPHeaderField: k) }
         
         let sessionConfiguration = URLSessionConfiguration.default
         sessionConfiguration.timeoutIntervalForRequest = 45

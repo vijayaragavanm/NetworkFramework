@@ -61,11 +61,11 @@ import UIKit
     
     private weak var dispatchWorkItem:DispatchWorkItem? = nil
     
-    public init(withUrl url:URL,httpBody: [String: Any]? = nil,parameterEncoding:ParameterEncoding = .json,httpMethod:Method = .GET,parserSelector:Selector? = nil,requestID:Int = 0,parserClass:Any? = nil,filePath:URL? = nil) {
+    public init(withUrl url:URL,httpBody: [String: Any]? = nil,parameterEncoding:ParameterEncoding = .json,httpMethod:Method = .GET,parserSelector:Selector? = nil,requestID:Int = 0,parserClass:Any? = nil,filePath:URL? = nil,headerFields:[String:String]? = nil) {
         super.init()
         self.parserSelector = parserSelector
         self.parserClass = parserClass
-        request?.inizializeRequest(url, httpBody: httpBody, parameterEncoding: parameterEncoding, httpMethod: httpMethod,requestID: requestID,filePath: filePath)
+        request?.inizializeRequest(url, httpBody: httpBody, parameterEncoding: parameterEncoding, httpMethod: httpMethod,requestID: requestID,filePath: filePath,headerFields:headerFields)
     }
     
     //MARK - Adding block operation reference - Batch request
@@ -82,7 +82,7 @@ import UIKit
     
     //MARK - Cancel Service Request
     public func cancelRequest() {
-    
+        
         if let requestTask = sessionTask {
             
             guard isCompleted == false else {
@@ -90,30 +90,34 @@ import UIKit
             }
             
             requestTask.cancel()
-    
+            
         }else if let dispatchBlock = dispatchWorkItem,let dispatchGroup = dispatchGroup {
             dispatchBlock.cancel()
             dispatchGroup.leave()
-
+            
         }
     }
     
     
     //MARK - Resume Service Request
     public func resumeRequest() {
-        if let requestTask = sessionTask as? URLSessionDownloadTask,isPaused == true {
-            requestTask.resume()
-    
+        
+        guard isPaused == true else {
+            return
         }
+        
+        sessionTask?.resume()
+            
     }
     
     //MARK - Pause Service Request
     public func pauseRequest() {
         
-        if let requestTask = sessionTask as? URLSessionDownloadTask,isInprogress == true {
-            requestTask.suspend()
-
+        guard isInprogress == true else {
+            return
         }
+        
+        sessionTask?.suspend()
     }
     
     

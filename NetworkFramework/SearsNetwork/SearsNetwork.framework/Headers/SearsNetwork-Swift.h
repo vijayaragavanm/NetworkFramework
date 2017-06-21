@@ -162,6 +162,10 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SHWebService
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+
+@interface SHWebServiceManager (SWIFT_EXTENSION(SearsNetwork))
+@end
+
 @class NSURLSessionDownloadTask;
 
 @interface SHWebServiceManager (SWIFT_EXTENSION(SearsNetwork))

@@ -48,6 +48,24 @@ class SHWebServiceCalls {
         }
     }
     
+    // MARK: - Upload Task Service Call
+    @discardableResult func uploadTaskServiceRequest(_ request:SHRequest?,uploadType:UploadType,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (),dataProgressHandler:@escaping  (_ uploadTask: URLSessionTask, _ bytesSent: Int64,_ totalBytesSent: Int64,_ totalBytesExpectedToSend: Int64) -> (), completionHandler:@escaping (_ error: NSError?, _ responseObject: [String: Any]?) -> ()) {
+        
+        guard let requestObj = request,let _ = requestObj.url else {
+            return
+        }
+        
+        let service = SHService()
+        
+        service.processUploadTaskService(request: request!,uploadType:uploadType, referenceHandler: { (uploadTask) in
+            referenceHandler(uploadTask)
+        }, dataProgressHandler: { (uploadTask, bytesSent, totalBytesSent, totalBytesExpectedToSend) in
+            dataProgressHandler(uploadTask, bytesSent, totalBytesSent, totalBytesExpectedToSend)
+        }) { (status) in
+            self.parseResponse(service: service, status: status,completionHandler: completionHandler)
+        }
+    }
+    
     
     // MARK: - Handle Response,Error and Parse
     func parseResponse(service:SHService,status:Bool,completionHandler:@escaping (_ error: NSError?, _ responseObject: [String: Any]?) -> ()) {

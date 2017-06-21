@@ -19,6 +19,8 @@
 		50342A661EF007E500B3F36E /* SHWebServiceManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = 50342A5A1EF0040900B3F36E /* SHWebServiceManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		50440FAE1EF7BDE400C8F881 /* SHWebServiceManager+DownloadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50440FAD1EF7BDE400C8F881 /* SHWebServiceManager+DownloadTask.swift */; };
 		50440FB01EF7C50A00C8F881 /* SHWService+DownloadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50440FAF1EF7C50A00C8F881 /* SHWService+DownloadTask.swift */; };
+		505D2A201EFA576700012C3D /* SHWService+UploadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505D2A1F1EFA576700012C3D /* SHWService+UploadTask.swift */; };
+		505D2A221EFA620F00012C3D /* SHWebServiceManager+UploadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505D2A211EFA620F00012C3D /* SHWebServiceManager+UploadTask.swift */; };
 		50B6F6431EF2761B0047A72C /* SHRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6F6421EF2761B0047A72C /* SHRequest.swift */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +48,8 @@
 		50342A5A1EF0040900B3F36E /* SHWebServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHWebServiceManager.swift; sourceTree = "<group>"; };
 		50440FAD1EF7BDE400C8F881 /* SHWebServiceManager+DownloadTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SHWebServiceManager+DownloadTask.swift"; sourceTree = "<group>"; };
 		50440FAF1EF7C50A00C8F881 /* SHWService+DownloadTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SHWService+DownloadTask.swift"; sourceTree = "<group>"; };
+		505D2A1F1EFA576700012C3D /* SHWService+UploadTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SHWService+UploadTask.swift"; sourceTree = "<group>"; };
+		505D2A211EFA620F00012C3D /* SHWebServiceManager+UploadTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SHWebServiceManager+UploadTask.swift"; sourceTree = "<group>"; };
 		50B6F6421EF2761B0047A72C /* SHRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,8 +118,10 @@
 				50342A591EF0040900B3F36E /* SHWebServiceCalls.swift */,
 				50342A5A1EF0040900B3F36E /* SHWebServiceManager.swift */,
 				50440FAD1EF7BDE400C8F881 /* SHWebServiceManager+DownloadTask.swift */,
+				505D2A211EFA620F00012C3D /* SHWebServiceManager+UploadTask.swift */,
 				50342A571EF0040900B3F36E /* SHService.swift */,
 				50440FAF1EF7C50A00C8F881 /* SHWService+DownloadTask.swift */,
+				505D2A1F1EFA576700012C3D /* SHWService+UploadTask.swift */,
 			);
 			path = WebServices;
 			sourceTree = "<group>";
@@ -234,8 +240,10 @@
 			files = (
 				50342A601EF0040900B3F36E /* SHWebServiceCalls.swift in Sources */,
 				50440FB01EF7C50A00C8F881 /* SHWService+DownloadTask.swift in Sources */,
+				505D2A201EFA576700012C3D /* SHWService+UploadTask.swift in Sources */,
 				50342A5D1EF0040900B3F36E /* SHResponse.swift in Sources */,
 				50B6F6431EF2761B0047A72C /* SHRequest.swift in Sources */,
+				505D2A221EFA620F00012C3D /* SHWebServiceManager+UploadTask.swift in Sources */,
 				50440FAE1EF7BDE400C8F881 /* SHWebServiceManager+DownloadTask.swift in Sources */,
 				50342A5B1EF0040900B3F36E /* SHNetworkTask.swift in Sources */,
 				50342A5E1EF0040900B3F36E /* SHService.swift in Sources */,

@@ -80,7 +80,7 @@ extension SHService:URLSessionDownloadDelegate {
     public func urlSession(_ session: URLSession,
                            task: URLSessionTask,
                            didCompleteWithError error: Error?){
-        downloadTask = nil
+        
         
         if let resultData = task.response {
             self.result = resultData
@@ -109,6 +109,8 @@ extension SHService:URLSessionDownloadDelegate {
             }
         }
         
+        uploadTask = nil
+        downloadTask = nil
     }
     
 }

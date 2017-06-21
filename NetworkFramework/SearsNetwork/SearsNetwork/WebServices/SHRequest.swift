@@ -16,6 +16,13 @@ public enum ParameterEncoding {
     case url
     case urlEncodedInURL
     case json
+    case none
+}
+
+public enum UploadType {
+    case data
+    case fileURL
+    case stream
 }
 
 class SHRequest: NSObject {
@@ -26,7 +33,7 @@ class SHRequest: NSObject {
     
     var httpBody:Data? = nil
     
-    private var parameterEncoding: ParameterEncoding = .json {
+    private var parameterEncoding: ParameterEncoding = .none {
         didSet {
             
             var headerFields:[String:String] = [:]
@@ -37,9 +44,12 @@ class SHRequest: NSObject {
             case .json:
                 headerFields["Accept"] = "application/json"
                 headerFields["Content-Type"] = "application/json"
+            default:
+                break
             }
             
-            headerValues = headerFields
+            headerFields.forEach { (k,v) in headerValues[k] = v }
+            
         }
     }
     
@@ -47,9 +57,11 @@ class SHRequest: NSObject {
     
     public var requestID:Int = 0
     
-    public var headerValues:[String:String]? = nil
+    public lazy var headerValues:[String:String] = {
+        return [String:String]()
+    }()
     
-    func inizializeRequest(_ url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding,httpMethod:Method,requestID:Int = 0,filePath:URL?){
+    func inizializeRequest(_ url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding,httpMethod:Method,requestID:Int = 0,filePath:URL?,headerFields:[String:String]?){
         self.url = url
         self.parameterEncoding = parameterEncoding
         self.httpMethod = httpMethod
@@ -63,6 +75,10 @@ class SHRequest: NSObject {
         
         self.filePath = filePath
         
+        if let headerFields = headerFields {
+            headerFields.forEach { (k,v) in headerValues[k] = v }
+        }
+
     }
     
     
@@ -84,6 +100,8 @@ class SHRequest: NSObject {
             } catch {
                 
             }
+        default:
+            break
         }
         
         return data
