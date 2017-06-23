@@ -11,11 +11,20 @@ import UIKit
 extension SHService {
     
     
-    func processDownloadTaskService(request:SHRequest,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (),dataProgressHandler:@escaping (_ downloadTask: URLSessionDownloadTask, _ bytesWritten: Int64,_ totalBytesWritten: Int64,_ totalBytesExpectedToWrite: Int64) -> (), completionHandler: @escaping ( _ status: Bool) -> ()) {
+    func processDownloadTaskService(request:SHRequest,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (),dataProgressHandler:@escaping (_ downloadTask: URLSessionDownloadTask, _ bytesWritten: Int64,_ totalBytesWritten: Int64,_ totalBytesExpectedToWrite: Int64) -> (), completionHandler: @escaping (_ error:NSError?, _ status: Bool) -> ()) {
         
         guard let _ = request.url else {
+          let error = NSError(domain: errorDomain, code:SHServiceErrorType.SHServiceErrorURLInvalid.rawValue, userInfo: [NSLocalizedDescriptionKey:ErrorDescription.urlNil])
+            completionHandler(error, false)
             return
         }
+        
+        guard let _ = request.filePath?.path else {
+            let error = NSError(domain: errorDomain, code: SHServiceErrorType.SHServiceErrorFilePathNil.rawValue, userInfo: [NSLocalizedDescriptionKey:ErrorDescription.filePathNil])
+            completionHandler(error, false)
+            return
+        }
+        
         self.dataProgressHandler = dataProgressHandler
         self.completionHandler = completionHandler
         
@@ -48,7 +57,7 @@ extension SHService:URLSessionDownloadDelegate {
                     try fileManager.removeItem(at: destinationURLForFile)
                 }catch{
                     if let completionHandler = completionHandler {
-                        completionHandler(false)
+                        completionHandler(self.error,false)
                     }
                 }
             }
@@ -57,7 +66,7 @@ extension SHService:URLSessionDownloadDelegate {
                 try fileManager.moveItem(at: location, to: destinationURLForFile)
             }catch{
                 if let completionHandler = completionHandler {
-                    completionHandler(false)
+                    completionHandler(self.error,false)
                 }
             }
             
@@ -100,12 +109,12 @@ extension SHService:URLSessionDownloadDelegate {
             }
             
             if let completionHandler = completionHandler {
-                completionHandler(false)
+                completionHandler(self.error,false)
             }
             
         } else {
             if let completionHandler = completionHandler {
-                completionHandler(true)
+                completionHandler(self.error,true)
             }
         }
         

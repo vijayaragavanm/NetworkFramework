@@ -21,6 +21,7 @@
 		50440FB01EF7C50A00C8F881 /* SHWService+DownloadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50440FAF1EF7C50A00C8F881 /* SHWService+DownloadTask.swift */; };
 		505D2A201EFA576700012C3D /* SHWService+UploadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505D2A1F1EFA576700012C3D /* SHWService+UploadTask.swift */; };
 		505D2A221EFA620F00012C3D /* SHWebServiceManager+UploadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505D2A211EFA620F00012C3D /* SHWebServiceManager+UploadTask.swift */; };
+		50B395CB1EFD119300D79115 /* SHNetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B395CA1EFD119300D79115 /* SHNetworkConstants.swift */; };
 		50B6F6431EF2761B0047A72C /* SHRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6F6421EF2761B0047A72C /* SHRequest.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +51,7 @@
 		50440FAF1EF7C50A00C8F881 /* SHWService+DownloadTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SHWService+DownloadTask.swift"; sourceTree = "<group>"; };
 		505D2A1F1EFA576700012C3D /* SHWService+UploadTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SHWService+UploadTask.swift"; sourceTree = "<group>"; };
 		505D2A211EFA620F00012C3D /* SHWebServiceManager+UploadTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SHWebServiceManager+UploadTask.swift"; sourceTree = "<group>"; };
+		50B395CA1EFD119300D79115 /* SHNetworkConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHNetworkConstants.swift; sourceTree = "<group>"; };
 		50B6F6421EF2761B0047A72C /* SHRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,6 +98,7 @@
 				50342A531EF0040900B3F36E /* WebServices */,
 				50342A3C1EF0033A00B3F36E /* SearsNetwork.h */,
 				50342A3D1EF0033A00B3F36E /* Info.plist */,
+				50B395CA1EFD119300D79115 /* SHNetworkConstants.swift */,
 			);
 			path = SearsNetwork;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 			files = (
 				50342A601EF0040900B3F36E /* SHWebServiceCalls.swift in Sources */,
 				50440FB01EF7C50A00C8F881 /* SHWService+DownloadTask.swift in Sources */,
+				50B395CB1EFD119300D79115 /* SHNetworkConstants.swift in Sources */,
 				505D2A201EFA576700012C3D /* SHWService+UploadTask.swift in Sources */,
 				50342A5D1EF0040900B3F36E /* SHResponse.swift in Sources */,
 				50B6F6431EF2761B0047A72C /* SHRequest.swift in Sources */,

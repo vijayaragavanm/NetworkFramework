@@ -7,8 +7,10 @@
 
 import Foundation
 
+
+
 class SHService:NSObject {
-    
+        
     var httpCode: Int = 200
     
     var error: NSError? = nil
@@ -22,7 +24,7 @@ class SHService:NSObject {
     var filePath:URL? = nil
     
     
-    typealias CompletionHandler = ( _ status: Bool) -> ()
+    typealias CompletionHandler = (_ error:NSError?, _ status: Bool) -> ()
     typealias DataProgressHandler = (_ downloadTask: URLSessionDownloadTask, _ bytesWritten: Int64,_ totalBytesWritten: Int64,_ totalBytesExpectedToWrite: Int64) -> ()
     
     typealias UploadDataProgressHandler = (_ uploadTask: URLSessionTask, _ didSendBodyData: Int64,_ totalBytesSent: Int64,_ totalBytesExpectedToSend: Int64) -> ()
@@ -32,9 +34,11 @@ class SHService:NSObject {
     var uploadDataProgressHandler:UploadDataProgressHandler? = nil
     
     
-    func processDataTaskService(request:SHRequest,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (), completionHandler: @escaping ( _ status: Bool) -> ()) {
+    func processDataTaskService(request:SHRequest,referenceHandler: @escaping ( _ serviceTask: URLSessionTask) -> (), completionHandler: @escaping (_ error:NSError?, _ status: Bool) -> ()) {
         
         guard let _ = request.url else {
+            let error = NSError(domain: errorDomain, code:SHServiceErrorType.SHServiceErrorURLInvalid.rawValue, userInfo: [NSLocalizedDescriptionKey:ErrorDescription.urlNil])
+            completionHandler(error, false)
             return
         }
         
@@ -78,10 +82,10 @@ class SHService:NSObject {
                     self.error = serverError
                 }
                 
-                completionHandler(false)
+                completionHandler(nil,false)
                 
             } else {
-                completionHandler(true)
+                completionHandler(self.error,true)
             }
         }
         referenceHandler(task)

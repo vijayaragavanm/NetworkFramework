@@ -61,11 +61,11 @@ import UIKit
     
     private weak var dispatchWorkItem:DispatchWorkItem? = nil
     
-    public init(withUrl url:URL,httpBody: [String: Any]? = nil,parameterEncoding:ParameterEncoding = .json,httpMethod:Method = .GET,parserSelector:Selector? = nil,requestID:Int = 0,parserClass:Any? = nil,filePath:URL? = nil,headerFields:[String:String]? = nil) {
+    public init(withUrl url:URL,httpBody: [String: Any]? = nil,parameterEncoding:ParameterEncoding = .json,httpMethod:Method = .GET,parserSelector:Selector? = nil,requestID:Int = 0,parserClass:Any? = nil,filePath:URL? = nil,uploadType:UploadType = .data,headerFields:[String:String]? = nil) {
         super.init()
         self.parserSelector = parserSelector
         self.parserClass = parserClass
-        request?.inizializeRequest(url, httpBody: httpBody, parameterEncoding: parameterEncoding, httpMethod: httpMethod,requestID: requestID,filePath: filePath,headerFields:headerFields)
+        request?.inizializeRequest(url, httpBody: httpBody, parameterEncoding: parameterEncoding, httpMethod: httpMethod,requestID: requestID,filePath: filePath,uploadType:uploadType,headerFields:headerFields)
     }
     
     //MARK - Adding block operation reference - Batch request

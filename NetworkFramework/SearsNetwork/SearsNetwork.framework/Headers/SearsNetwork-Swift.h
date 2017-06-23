@@ -162,15 +162,18 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) SHWebService
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-
-@interface SHWebServiceManager (SWIFT_EXTENSION(SearsNetwork))
-@end
-
 @class NSURLSessionDownloadTask;
 
 @interface SHWebServiceManager (SWIFT_EXTENSION(SearsNetwork))
 - (void)downloadTaskRequestWithNetworkTask:(SHNetworkTask * _Nonnull)networkTask dataProgressHandler:(void (^ _Nonnull)(NSURLSessionDownloadTask * _Nonnull, int64_t, int64_t, int64_t))dataProgressHandler completionHandler:(void (^ _Nonnull)(NSError * _Nullable, id _Nullable))completionHandler;
 - (void)batchDownloadTaskRequestWithNetworkTasks:(NSArray<SHNetworkTask *> * _Nonnull)networkTasks dataProgressHandler:(void (^ _Nonnull)(NSURLSessionDownloadTask * _Nonnull, int64_t, int64_t, int64_t))dataProgressHandler completionHandler:(void (^ _Nonnull)(NSError * _Nullable, id _Nullable))completionHandler :(void (^ _Nonnull)(void))groupCompletionHandler;
+@end
+
+@class NSURLSessionTask;
+
+@interface SHWebServiceManager (SWIFT_EXTENSION(SearsNetwork))
+- (void)uploadTaskRequestWithNetworkTask:(SHNetworkTask * _Nonnull)networkTask dataProgressHandler:(void (^ _Nonnull)(NSURLSessionTask * _Nonnull, int64_t, int64_t, int64_t))dataProgressHandler completionHandler:(void (^ _Nonnull)(NSError * _Nullable, id _Nullable))completionHandler;
+- (void)batchUploadTaskRequestWithNetworkTasks:(NSArray<SHNetworkTask *> * _Nonnull)networkTasks dataProgressHandler:(void (^ _Nonnull)(NSURLSessionTask * _Nonnull, int64_t, int64_t, int64_t))dataProgressHandler completionHandler:(void (^ _Nonnull)(NSError * _Nullable, id _Nullable))completionHandler :(void (^ _Nonnull)(void))groupCompletionHandler;
 @end
 
 #pragma clang diagnostic pop

@@ -33,6 +33,8 @@ class SHRequest: NSObject {
     
     var httpBody:Data? = nil
     
+    var uploadType:UploadType = .data
+    
     private var parameterEncoding: ParameterEncoding = .none {
         didSet {
             
@@ -61,11 +63,13 @@ class SHRequest: NSObject {
         return [String:String]()
     }()
     
-    func inizializeRequest(_ url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding,httpMethod:Method,requestID:Int = 0,filePath:URL?,headerFields:[String:String]?){
+    func inizializeRequest(_ url:URL,httpBody: [String: Any]?,parameterEncoding:ParameterEncoding,httpMethod:Method,requestID:Int = 0,filePath:URL?,uploadType:UploadType,headerFields:[String:String]?){
         self.url = url
         self.parameterEncoding = parameterEncoding
         self.httpMethod = httpMethod
         self.requestID = requestID
+        
+        self.uploadType = uploadType
         
         if let httpBodyParams = httpBody {
             if let parametersData = encodedParameters(httpBodyParams) {
